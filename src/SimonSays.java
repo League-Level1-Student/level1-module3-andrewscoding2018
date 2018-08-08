@@ -1,3 +1,4 @@
+
 /*
  *    Copyright (c) The League of Amazing Programmers 2013-2018
  *    Level 1
@@ -22,7 +23,7 @@ public class SimonSays extends KeyAdapter {
 
 	// Complete steps 1 - 7 before you test
 	// 1. Declare a JFrame variable
-	
+	JFrame frame;
 	HashMap<Integer, String> images = new HashMap<Integer, String>();
 	private int imageIndex;
 	private int tries = 0;
@@ -30,67 +31,90 @@ public class SimonSays extends KeyAdapter {
 	Date timeAtStart;
 
 	private void makeAlbum() {
-		// 2. Add the four images that match keyboard keys like this: 
-		//images.put(new Integer(KeyEvent.VK_UP), "up.jpg");
-
+		// 2. Add the four images that match keyboard keys like this:
+		images.put(new Integer(KeyEvent.VK_UP), "up.jpg");
+		images.put(new Integer(KeyEvent.VK_DOWN), "down.jpg");
+		images.put(new Integer(KeyEvent.VK_LEFT), "left.jpg");
+		images.put(new Integer(KeyEvent.VK_RIGHT), "right.jpg");
 		// 3. Use a JOptionPane to tell the user the rules: "Press the matching key when
 		// 'Simon says' otherwise press a different key"
-		
+		JOptionPane.showMessageDialog(null, "Press the matching key when simon says so.");
 		// 4. Call the showImage method to show an image
+		showImage();
 	}
 
 	public void keyPressed(KeyEvent e) {
 		// 15. Make a points variable to track the score.
-
+		int p = 0;
+		int t = 0;
 		// 16. If the keyCode matches the imageIndex and "Simon says"
-		
+		while (t < 8) {
+
+			if (e.getKeyCode() == imageIndex && simonSays == true) {
+				p++;
+				speak("right");
+			}
+			if (e.getKeyCode() != imageIndex && simonSays == false) {
+				p++;
+				speak("right");
+			}
 			// 17. Increase the value of score
-		
+
 			// 18. Use the speak method to tell the user they were correct
-		
-		// 19. If the keyCode doesn't match the imageIndex and "Simon didn't say..."
-		
-			// 20.  Increase the value of score
-		
+
+			// 19. If the keyCode doesn't match the imageIndex and "Simon didn't say..."
+
+			// 20. Increase the value of score
+
 			// 21. Use the speak method to tell the user they were correct
-		
-		// 22. Increment tries by 1
-		
-		// 25. If tries is greater than 9 (or however many you want)...
-		
+t++;
+showImage();
+		}
+			// 22. Increment tries by 1
+JOptionPane.showMessageDialog(null, t);
+			// 25. If tries is greater than 9 (or however many you want)...
+
 			// 26. Tell the user their score
-		
+
 			// 27. Exit the program
+System.exit(1);
+			// 23. Dispose of the frame
 
-		// 23. Dispose of the frame
+			// 24. Call the showImage method to show a new image
 
-		// 24. Call the showImage method to show a new image
-	}
+		}
+	
 
 	private void showImage() {
 		// 5. Initialize your frame to a new JFrame()
-		
+		frame = new JFrame();
 		// 6. Set the frame to visible
-
+		frame.setVisible(true);
 		// 7. Uncomment the following line to add a random image to your frame
-		//frame.add(getNextRandomImage());
+		frame.add(getNextRandomImage());
 
 		// 8. Set the name of your frame
-
+		frame.setName("Pickle");
 		// 9. Pack the frame
-		
+		frame.pack();
 		// 10. Set the defaultCloseOperation of your from to JFrame.EXIT_ON_CLOSE
-		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 11. Add a key listener to the frame
-
+		frame.addKeyListener(this);
 		// 12. Create a new instance of Random
-
-		// 13. Use the Random and the speak method to either say 
+		Random rand = new Random();
+		int r = rand.nextInt(2);
+		// 13. Use the Random and the speak method to either say
 		// "Simon says press this key" or "Press this key"
-
+		if (r == 1) {
+			speak("Simon says to press.");
+			simonSays = true;
+		} else if (r == 0) {
+			speak("Nope.");
+			simonSays = false;
+		}
 		// 14. Above, set the value of simonSays to true/false appropriately
 
-		
 	}
 
 	private Component getNextRandomImage() {
@@ -118,13 +142,10 @@ public class SimonSays extends KeyAdapter {
 }
 
 /*
- * BONUS!
- * Add a timer :
- * ~~~ where the code starts running ~~~ 
- * timeAtStart = newDate();
+ * BONUS! Add a timer : ~~~ where the code starts running ~~~ timeAtStart =
+ * newDate();
  *
- * ~~~ where the code ends ~~~ 
- * Date timeAtEnd = new Date();
+ * ~~~ where the code ends ~~~ Date timeAtEnd = new Date();
  * System.out.println((timeAtEnd.getTime()-timeAtStart.getTime())/1000);
  * System.exit(0);
  */
